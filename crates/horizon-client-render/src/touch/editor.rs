@@ -383,7 +383,7 @@ impl TouchControls {
             return true;
         }
         if e.palette && started && layout::contains([0.22, 0.84, 0.56, 0.07], p) {
-            if self.settings.custom_buttons.len() < 32 {
+            if self.settings.custom_buttons.len() < super::custom::MAX_BUTTONS {
                 let index = self.settings.custom_buttons.len();
                 self.settings
                     .custom_buttons
