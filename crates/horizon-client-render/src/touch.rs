@@ -132,7 +132,10 @@ pub struct TouchControls {
     pub inventory_mode: bool,
     pub editor: Option<editor::Editor>,
     fingers: BTreeMap<u64, (Role, [f32; 2])>,
-    custom_fingers: BTreeMap<u64, String>,
+    /// Keys each finger pressed (empty for a toggle button's finger).
+    custom_fingers: BTreeMap<u64, Vec<String>>,
+    /// Keys held on by toggle buttons, by button index.
+    custom_toggled: BTreeMap<usize, Vec<String>>,
     custom_events: Vec<(String, bool)>,
     pending: PadState,
     pub aim: Option<[f32; 2]>,
