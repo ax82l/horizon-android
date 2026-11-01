@@ -10,58 +10,71 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    # Pinned: ubuntu-latest is moving to a newer image without the Android SDK.
     runs-on: ubuntu-24.04
     timeout-minutes: 340
     env:
       HORIZON_TELEMETRY_URL: "off"
       CARGO_TARGET_DIR: .local/ci-target
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
+
       - name: Free disk space
         run: |
           sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /usr/local/lib/node_modules
           df -h /
+
       - name: Linux build libraries
         run: |
           sudo apt-get update
           sudo apt-get install -y libasound2-dev libudev-dev pkg-config
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-      - name: Android SDK and NDK
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK & NDK
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;28.2.13676358"
-          # tools/android_build.py takes the newest NDK it finds; keep only the pinned one.
-          sudo find "$ANDROID_HOME/ndk" -mindepth 1 -maxdepth 1 ! -name 28.2.13676358 -exec rm -rf {} +
+          export ANDROID_HOME=$ANDROID_SDK_ROOT
+          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/tools/bin" >> $GITHUB_PATH
+          
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;28.2.13676358"
+          
+          sudo find "$ANDROID_HOME/ndk" -mindepth 1 -maxdepth 1 ! -name 28.2.13676358 -exec rm -rf {} + || true
           ls "$ANDROID_HOME/ndk"
+
       - name: Rust Android target
         run: rustup target add aarch64-linux-android
+
       - name: Gradle 8.14
         run: |
           curl -fsSL -o "$RUNNER_TEMP/gradle.zip" https://services.gradle.org/distributions/gradle-8.14-bin.zip
           unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
           "$RUNNER_TEMP/gradle-8.14/bin/gradle" --version
-      # Same signing key every build, so a new APK installs over the previous one.
-      # GitHub drops caches unused for 7 days; then a new key is made and the app
-      # must be uninstalled before installing (back up worlds first).
+
       - name: Restore signing key
         uses: actions/cache@v4
         with:
           path: .local/android/debug.keystore
           key: horizon-signing-key-v1
+
       - name: Prepare engine tables (downloads Minecraft from Mojang)
         env:
           CARGO_PROFILE_DEV_OPT_LEVEL: "2"
         run: python3 tools/android_prepare.py
-      # --profile fast: no LTO, much quicker. Drop it for a fully optimised release build.
+
       - name: Build APK (arm64-v8a)
         run: >
           python3 tools/android_build.py --abi arm64-v8a --public --profile fast
-          --sdk "$ANDROID_HOME" --java-home "$JAVA_HOME_17_X64"
+          --sdk "$ANDROID_HOME" --java-home "$JAVA_HOME"
           --gradle "$RUNNER_TEMP/gradle-8.14/bin/gradle"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
