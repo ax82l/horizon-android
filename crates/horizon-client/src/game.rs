@@ -14901,6 +14901,10 @@ impl ApplicationHandler for Game<'_> {
             self.pad.menu.keyboard_focus = false;
             let size = self.window.as_ref().unwrap().inner_size();
             self.pad.touch.viewport(size.width, size.height);
+            self.pad.touch.density = crate::platform::display_density();
+            if self.pad.touch.home.as_os_str().is_empty() {
+                self.pad.touch.home = crate::backend::game_home();
+            }
             if self.pad.touch.editor.is_some() {
                 if touch.phase == TouchPhase::Cancelled {
                     self.pad.touch.cancel_editor();
@@ -14991,6 +14995,7 @@ impl ApplicationHandler for Game<'_> {
                     ];
                     if let Some(slot) =
                         horizon_client::touch::hotbar_slot(batch.width, batch.height, point)
+                        && self.pad.touch.settings.crosshair_gestures
                         && !self.pad.touch.control_at_point([
                             touch.location.x as f32 / size.width.max(1) as f32,
                             touch.location.y as f32 / size.height.max(1) as f32,

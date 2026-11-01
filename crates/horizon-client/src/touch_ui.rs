@@ -46,6 +46,7 @@ pub enum Action {
     More,
 }
 
+#[allow(dead_code)]
 const KEYS: [(&str, KeyCode); 28] = [
     ("F1", KeyCode::F1),
     ("F2", KeyCode::F2),
@@ -295,63 +296,14 @@ impl TouchUi {
         if menu && (3.0..23.0).contains(&p[1]) && (w - 108.0..w - 56.0).contains(&p[0]) {
             return Some(Action::VirtualMouse);
         }
-        if (3.0..23.0).contains(&p[1]) {
-            if menu && (w - 53.0..w - 3.0).contains(&p[0]) {
-                return Some(Action::Key(KeyCode::Escape));
-            }
-            if (3.0..36.0).contains(&p[0]) {
-                return Some(Action::More);
-            }
-            if self.expanded && (39.0..72.0).contains(&p[0]) {
-                return Some(Action::Key(KeyCode::F3));
-            }
-            if self.expanded && (75.0..108.0).contains(&p[0]) {
-                return Some(Action::Key(KeyCode::F5));
-            }
-            if self.expanded && (111.0..144.0).contains(&p[0]) {
-                return Some(Action::Key(KeyCode::KeyT));
-            }
-            if self.expanded && (147.0..186.0).contains(&p[0]) {
-                return Some(Action::Keyboard);
-            }
-        }
-        if self.expanded && (3.0..203.0).contains(&p[0]) && (27.0..219.0).contains(&p[1]) {
-            let i = ((p[1] - 27.0) / 24.0) as usize * 4 + ((p[0] - 3.0) / 50.0) as usize;
-            if i == 28 {
-                return Some(Action::LatchF3);
-            }
-            return KEYS.get(i).map(|(_, k)| match i {
-                23 => Action::Pick,
-                24.. => Action::DebugCombo(*k),
-                _ => Action::Key(*k),
-            });
+        if menu && (3.0..23.0).contains(&p[1]) && (w - 53.0..w - 3.0).contains(&p[0]) {
+            return Some(Action::Key(KeyCode::Escape));
         }
         None
     }
     pub fn draw(&self, b: &mut HudBatch, a: &HudAtlas, menu: bool) {
-        for (label, x, width) in [
-            ("...", 3.0, 33.0),
-            ("F3", 39.0, 33.0),
-            ("F5", 75.0, 33.0),
-            ("Chat", 111.0, 33.0),
-            ("Keys", 147.0, 39.0),
-        ] {
-            if label != "..." && !self.expanded {
-                continue;
-            }
-            button(
-                b,
-                a,
-                if label == "F3" && self.key_held(KeyCode::F3) {
-                    "F3*"
-                } else {
-                    label
-                },
-                x,
-                3.0,
-                width,
-            );
-        }
+        // The F-key row, its "..." drawer and chat shortcut are gone: touch
+        // buttons are custom now. Menus keep the virtual mouse and Back.
         if menu {
             button(
                 b,
@@ -373,26 +325,6 @@ impl TouchUi {
         }
         if menu {
             button(b, a, "Back", b.width - 53.0, 3.0, 50.0);
-        }
-        if self.expanded {
-            button(
-                b,
-                a,
-                if self.f3_latched { "F3 ON" } else { "HoldF3" },
-                3.0,
-                195.0,
-                48.0,
-            );
-            for (i, (label, _)) in KEYS.iter().enumerate() {
-                button(
-                    b,
-                    a,
-                    label,
-                    3.0 + (i % 4) as f32 * 50.0,
-                    27.0 + (i / 4) as f32 * 24.0,
-                    48.0,
-                );
-            }
         }
     }
     pub fn keyboard_touch(

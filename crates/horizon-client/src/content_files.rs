@@ -10,6 +10,8 @@ pub enum Kind {
     Mods,
     Packs,
     Shaders,
+    /// Touch control maps (`controlmaps/*.json`). Not listed with the packs.
+    Controls,
 }
 impl Kind {
     pub const ALL: [Self; 3] = [Self::Mods, Self::Packs, Self::Shaders];
@@ -18,6 +20,7 @@ impl Kind {
             Self::Mods => "horizon-mods",
             Self::Packs => "resourcepacks",
             Self::Shaders => "shaderpacks",
+            Self::Controls => "controlmaps",
         }
     }
     pub fn label(self) -> &'static str {
@@ -25,6 +28,7 @@ impl Kind {
             Self::Mods => "Mods",
             Self::Packs => "Resource Packs",
             Self::Shaders => "Shaders",
+            Self::Controls => "Control maps",
         }
     }
     pub fn accepts(self, name: &str) -> bool {
@@ -33,6 +37,7 @@ impl Kind {
             Self::Mods => lower.ends_with(".hmod"),
             Self::Packs => lower.ends_with(".zip"),
             Self::Shaders => lower.ends_with(".zip") || lower.ends_with(".hshader"),
+            Self::Controls => lower.ends_with(".json"),
         }
     }
 }
@@ -61,6 +66,17 @@ pub fn validate(
             "Choose a ZIP pack, .hshader shader pack or sandboxed .hmod matching this folder"
                 .into(),
         );
+    }
+    if kind == Kind::Controls {
+        // A Horizon control map or a PojavLauncher layout: bounded JSON, no archive.
+        if std::fs::metadata(path)?.len() > 4 << 20 {
+            return Err("Control map exceeds 4 MiB".into());
+        }
+        let value: serde_json::Value = serde_json::from_slice(&std::fs::read(path)?)?;
+        if value.get("buttons").is_none() && value.get("mControlDataList").is_none() {
+            return Err("Not a Horizon or PojavLauncher control layout".into());
+        }
+        return Ok(false);
     }
     let file = std::fs::File::open(path)?;
     if kind == Kind::Mods && file.metadata()?.len() > 32 << 20 {
@@ -151,6 +167,7 @@ pub fn validate(
         Kind::Packs => pack,
         Kind::Shaders => shader,
         Kind::Mods => manifest && wasm,
+        Kind::Controls => true,
     } {
         return Err(format!(
             "Archive is not a {} package (required files must be at the ZIP root)",

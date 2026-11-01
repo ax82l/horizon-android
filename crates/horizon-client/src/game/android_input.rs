@@ -462,6 +462,20 @@ impl Game<'_> {
     }
     pub(super) fn android_poll_keyboard(&mut self) {
         self.android_custom_events();
+        if std::mem::take(&mut self.pad.touch.mouse_toggle) {
+            self.pad.touch_ui.virtual_mouse = !self.pad.touch_ui.virtual_mouse;
+        }
+        if std::mem::take(&mut self.pad.touch.keyboard_requested) {
+            self.android_show_keyboard();
+        }
+        if std::mem::take(&mut self.pad.touch.import_requested)
+            && let Err(error) = crate::documents::begin(
+                horizon_client::content_files::Kind::Controls,
+                crate::backend::game_home(),
+            )
+        {
+            self.system_message(horizon_client::text::Text::literal(error));
+        }
         if let Some(notice) = crate::documents::poll() {
             if notice.changed {
                 self.refresh_pack_lists();

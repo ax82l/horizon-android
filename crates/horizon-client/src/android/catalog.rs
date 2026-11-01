@@ -279,6 +279,7 @@ impl Catalog {
                     horizon_client::content_files::Kind::Mods => name
                         .strip_suffix(".hmod")
                         .is_some_and(|id| on.enabled.contains(id)),
+                    horizon_client::content_files::Kind::Controls => false,
                 };
                 self.local.push(LocalItem {
                     kind,
@@ -604,6 +605,7 @@ impl Catalog {
                 };
                 settings.save(&path);
             }
+            horizon_client::content_files::Kind::Controls => {}
         }
         self.status = "Selection saved for the next game launch".into();
         self.refresh(home);

@@ -66,47 +66,42 @@ Server and anticheat compatibility varies; see [account integration](microsoft-a
 
 ## Touch controls
 
-Four schemes combine joystick or D-pad movement with tap or crosshair aiming:
+Touch controls are PojavLauncher-style: there are no fixed buttons. Every button
+is a custom button, and a control map is a list of them. The first run starts with
+the default map.
 
-| Movement | Aiming |
+World gestures (switch them off with **Touch gestures** in Options or **Options**
+in the editor; turning the view always works):
+
+| Gesture | Action |
 | --- | --- |
-| Joystick | Crosshair |
-| Joystick | Tap to interact |
-| D-pad | Crosshair |
-| D-pad | Tap to interact |
+| Drag | Turn the view (the crosshair aims) |
+| Tap | Use / place |
+| Hold | Attack / mine (use for a held item that is used) |
+| Tap the hotbar | Select the slot |
 
-In tap modes, a short mob tap attacks. A stationary hold commits mining or an
-available item/entity interaction. A camera swipe does not immediately consume
-held food. After a hold commits, the camera can move while the action continues;
-releasing the finger ends it. Changing a mining target starts its own progress.
-The mining indicator grows an inner circle towards the fixed outer rim.
+Open **Options > Controls > Touch Controls > Edit touch controls**. Tap a button
+to edit it and drag it to move it. **Add** makes a button; the panel has three tabs:
 
-Crosshair modes keep Use/Place visible. The optional contextual Interact button
-is off by default in tap modes; when enabled it appears for a usable target and
-stays visible while pressed. Default joystick movement follows eight Java input
-directions; optional 360-degree movement is available in Touch Controls.
+- **Basic**: name, width and height in dp (the same unit as PojavLauncher, so a
+  225 x 225 button covers the same area), up to four keys per button, Clone and Delete.
+- **Behavior**: toggle (tap on, tap off), swipeable (slide onto another swipeable
+  button), mouse pass-through (the finger on the button also turns the view),
+  In game, In menu (inventory screens, needs **Controls in inventory**), opacity.
+- **Style**: background and stroke colours (hex `RRGGBB` / `AARRGGBB` or R, G, B, A
+  values), stroke width 0-100% (100% fills the button) and corner radius 0-100%
+  (100% is a circle).
 
-Open **Options > Controls > Touch Controls** to select a scheme, adjust
-sensitivity, global button size, circle size, F3 text scale, handedness and
-Sprint-button visibility. Global button size affects both drawing and hit areas;
-individual saved sizes remain editable.
-**Auto Sprint** is beside **Auto-Jump** in Controls. Hiding Sprint leaves normal
-double-forward sprinting available. The attack indicator uses actual weapon
-recovery and can sit left or right of the hotbar.
+A key slot takes any keyboard key, a mouse button (left / right / middle),
+an action, or one of two special keys: **Hide / show buttons** (hides every other
+button, never itself) and **Mouse on / off** (the virtual mouse in menus). Pressing
+a key on a connected keyboard while the key list is open assigns it.
 
-**Customize layout** edits button position, size and opacity for each scheme.
-**Add buttons...** restores built-in controls or adds a **custom key**. Select its
-Action to choose a keyboard key, or press a physical key while the picker is open.
-For example, a Z button holds Z until its finger is released, using the same
-key bindings as a keyboard. Position, size and opacity are editable per scheme.
-Up to 32 custom buttons are supported, including duplicate keys. Removing a
-custom button deletes that binding; removing a built-in hides it. Done saves;
-Cancel/Android Back restores the previous layout. Multi-key macros are not implemented.
-
-The top row includes F3, chat, pause, Options and F5 perspective. The auxiliary
-`...` drawer retains F1–F12 and other Java keys. Multiple fingers or **Hold F3**
-allow combinations. Menus support taps, list swipes and slider/inventory dragging.
-Android Back closes the keyboard first, then the current screen.
+**Maps** saves, loads and deletes named control maps (stored in `controlmaps/`) and
+**Import...** picks a Horizon or PojavLauncher layout file with the Android file
+picker; Pojav layouts are converted when loaded. Up to 128 buttons per map.
+Done saves; Cancel / Android Back restores the previous layout.
+`tools/pojav_to_horizon.py` converts a Pojav layout on a computer.
 
 ### HUD margins and orientation
 

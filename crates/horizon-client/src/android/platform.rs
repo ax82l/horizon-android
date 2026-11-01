@@ -725,3 +725,49 @@ pub fn display_rotation() -> i32 {
     })
     .unwrap_or(0)
 }
+
+/// Screen pixels per dp (`DisplayMetrics.density`). Control buttons are sized in dp.
+/// Read once; a failed read answers a typical phone value and is retried.
+pub fn display_density() -> f32 {
+    static DENSITY: std::sync::OnceLock<f32> = std::sync::OnceLock::new();
+    if let Some(value) = DENSITY.get() {
+        return *value;
+    }
+    let read = crate::APP.with(|slot| {
+        let app = slot.borrow();
+        let app = app.as_ref()?;
+        let vm = unsafe { JavaVM::from_raw(app.vm_as_ptr().cast()) }.ok()?;
+        let mut env = vm.attach_current_thread().ok()?;
+        let result = env.with_local_frame(16, |env| -> jni::errors::Result<f32> {
+            let activity = unsafe { JObject::from_raw(app.activity_as_ptr().cast()) };
+            let resources = env
+                .call_method(
+                    &activity,
+                    "getResources",
+                    "()Landroid/content/res/Resources;",
+                    &[],
+                )?
+                .l()?;
+            let metrics = env
+                .call_method(
+                    &resources,
+                    "getDisplayMetrics",
+                    "()Landroid/util/DisplayMetrics;",
+                    &[],
+                )?
+                .l()?;
+            env.get_field(&metrics, "density", "F")?.f()
+        });
+        match result {
+            Ok(value) if value.is_finite() && value > 0.0 => Some(value),
+            _ => {
+                let _ = env.exception_clear();
+                None
+            }
+        }
+    });
+    match read {
+        Some(value) => *DENSITY.get_or_init(|| value),
+        None => 2.75,
+    }
+}

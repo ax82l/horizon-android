@@ -1223,6 +1223,7 @@ impl Launcher {
                     horizon_client::content_files::Kind::Mods => "mods",
                     horizon_client::content_files::Kind::Packs => "packs",
                     horizon_client::content_files::Kind::Shaders => "shaders",
+                    horizon_client::content_files::Kind::Controls => "mods",
                 };
                 let id = crate::document_store::folder_id(self.catalog.config.profile, folder);
                 self.catalog.status = if crate::platform::open_documents(&id) {

@@ -1,5 +1,7 @@
-//! Per-profile touch layouts. Coordinates are normalized; sizes are fractions
-//! of surface height, so a button stays square on wide phones and tablets.
+//! Per-profile touch settings. Buttons are fully custom: positions are fractions
+//! of the surface, sizes are density-independent pixels (dp) like PojavLauncher.
+//! `Mode` and `Control` remain only as inert names the rest of the client still
+//! mentions; touch is always the aim-crosshair scheme and no built-in control exists.
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -86,47 +88,6 @@ impl Control {
         }
     }
 }
-#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
-pub struct Placement {
-    pub center: [f32; 2],
-    pub size: f32,
-    pub opacity: f32,
-}
-impl Placement {
-    pub(super) fn new(x: f32, y: f32, size: f32) -> Self {
-        Self {
-            center: [x, y],
-            size,
-            opacity: 0.65,
-        }
-    }
-    pub fn rect(self, aspect: f32) -> [f32; 4] {
-        let sx = self.size / aspect.max(0.1);
-        [
-            self.center[0] - sx / 2.0,
-            self.center[1] - self.size / 2.0,
-            sx,
-            self.size,
-        ]
-    }
-    pub fn sanitize(&mut self) {
-        if !self.size.is_finite() {
-            self.size = 0.15;
-        }
-        if !self.opacity.is_finite() {
-            self.opacity = 0.65;
-        }
-        self.size = self.size.clamp(0.045, 0.45);
-        self.opacity = self.opacity.clamp(0.0, 1.0);
-        for c in &mut self.center {
-            *c = if c.is_finite() {
-                c.clamp(0.025, 0.975)
-            } else {
-                0.5
-            };
-        }
-    }
-}
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Settings {
@@ -142,72 +103,30 @@ pub struct Settings {
     pub offhand_button: bool,
     pub shield_button: bool,
     pub circle_size: f32,
+    /// Multiplies every custom button's size.
     pub button_scale: f32,
     pub custom_buttons: Vec<super::CustomButton>,
+    /// Name of the control map the buttons were last loaded from or saved as.
+    pub controlmap: String,
+    /// 2 = the dp-based button model; older files get the default map.
+    pub custom_version: u32,
     pub analog_movement: bool,
     pub sprint_button: bool,
     pub sprint_toggle: bool,
     pub inventory_controls: bool,
     pub virtual_mouse_sensitivity: f32,
+    /// World gestures: tap to use or place, long press to attack or mine,
+    /// tap the hotbar to select. Off leaves only turning the view.
     pub crosshair_gestures: bool,
     pub gyroscope: bool,
     pub gyro_sensitivity: f32,
     pub attack_indicator_left: bool,
-    #[serde(deserialize_with = "deserialize_visibility")]
-    pub button_visibility: [u8; 14],
     pub horizontal_margin: f32,
     pub vertical_margin: f32,
-    #[serde(deserialize_with = "deserialize_layouts")]
-    pub layouts: [[Placement; 14]; 3],
 }
-// Append new buttons without resetting a player's existing ten-button layout.
-fn deserialize_layouts<'de, D: serde::Deserializer<'de>>(
-    deserializer: D,
-) -> Result<[[Placement; 14]; 3], D::Error> {
-    let rows = Vec::<Vec<Placement>>::deserialize(deserializer)?;
-    if rows.len() != 3 || rows.iter().any(|r| !matches!(r.len(), 10 | 12 | 14)) {
-        return Err(serde::de::Error::custom(
-            "expected three touch layouts of 10, 12 or 14 controls",
-        ));
-    }
-    let mut layouts = Settings::default().layouts;
-    for (output, input) in layouts.iter_mut().zip(rows) {
-        output[..input.len()].copy_from_slice(&input);
-    }
-    Ok(layouts)
-}
-fn deserialize_visibility<'de, D: serde::Deserializer<'de>>(d: D) -> Result<[u8; 14], D::Error> {
-    let old = Vec::<u8>::deserialize(d)?;
-    if !matches!(old.len(), 12 | 14) {
-        return Err(serde::de::Error::custom(
-            "expected 12 or 14 visibility values",
-        ));
-    }
-    let mut values = [0; 14];
-    values[..old.len()].copy_from_slice(&old);
-    Ok(values)
-}
+const CUSTOM_VERSION: u32 = 2;
 impl Default for Settings {
     fn default() -> Self {
-        let base = [
-            Placement::new(0.13, 0.76, 0.32),
-            Placement::new(0.72, 0.78, 0.105),
-            Placement::new(0.92, 0.78, 0.16),
-            Placement::new(0.81, 0.86, 0.115),
-            Placement::new(0.80, 0.64, 0.16),
-            Placement::new(0.92, 0.52, 0.16),
-            Placement::new(0.46, 0.055, 0.075),
-            Placement::new(0.50, 0.055, 0.075),
-            Placement::new(0.54, 0.055, 0.075),
-            Placement::new(0.73, 0.95, 0.075),
-            Placement::new(0.42, 0.055, 0.075),
-            Placement::new(0.58, 0.055, 0.075),
-            Placement::new(0.66, 0.38, 0.09),
-            Placement::new(0.92, 0.36, 0.12),
-        ];
-        let mut layouts = [base; 3];
-        layouts[2][Control::Sneak as usize] = Placement::new(0.13, 0.76, 0.10);
-        layouts[2][Control::Jump as usize] = Placement::new(0.90, 0.78, 0.14);
         Self {
             mode: Mode::Crosshair,
             split_controls: false,
@@ -222,20 +141,20 @@ impl Default for Settings {
             shield_button: false,
             circle_size: 32.0,
             button_scale: 1.0,
-            custom_buttons: Vec::new(),
+            custom_buttons: super::controlmap::default_buttons(),
+            controlmap: super::controlmap::DEFAULT_NAME.into(),
+            custom_version: CUSTOM_VERSION,
             analog_movement: false,
             sprint_button: true,
             sprint_toggle: false,
             inventory_controls: false,
             virtual_mouse_sensitivity: 1.0,
-            crosshair_gestures: false,
+            crosshair_gestures: true,
             gyroscope: false,
             gyro_sensitivity: 1.0,
             attack_indicator_left: true,
-            button_visibility: [0; 14],
             horizontal_margin: 0.0,
             vertical_margin: 0.0,
-            layouts,
         }
     }
 }
@@ -248,43 +167,19 @@ impl Settings {
             .ok()
             .and_then(|b| serde_json::from_slice(&b).ok())
             .unwrap_or_default();
+        if s.custom_version < CUSTOM_VERSION {
+            // Buttons saved by the old square, three-scheme editor cannot be converted.
+            s.custom_buttons = super::controlmap::default_buttons();
+            s.controlmap = super::controlmap::DEFAULT_NAME.into();
+            s.custom_version = CUSTOM_VERSION;
+        }
         s.sanitize();
-        // Restore the original top-row spacing without moving custom layouts.
-        for row in &mut s.layouts {
-            for (control, old, new) in [
-                (Control::Chat, 0.45, 0.46),
-                (Control::Settings, 0.55, 0.54),
-                (Control::Debug, 0.40, 0.42),
-                (Control::Perspective, 0.60, 0.58),
-            ] {
-                let p = &mut row[control as usize];
-                if p.center == [old, 0.055] && p.size == 0.075 {
-                    p.center[0] = new;
-                }
-            }
-        }
-        // Move only the initial swap-hands placement that overlapped Sprint.
-        for row in &mut s.layouts {
-            let swap = &mut row[Control::Offhand as usize];
-            if swap.center == [0.68, 0.80] && (swap.size - 0.09).abs() < 0.0001 {
-                swap.center = [0.66, 0.38];
-            }
-        }
-        // Move the old factory sprint position only; keep customized placements.
-        for mode in [Mode::Crosshair, Mode::Tap] {
-            let sprint = &mut s.layouts[mode.index()][Control::Sprint as usize];
-            if sprint.center == [0.13, 0.50] && (sprint.size - 0.105).abs() < 0.0001 {
-                sprint.center = [0.72, 0.78];
-            }
-        }
         s
     }
     pub fn sanitize(&mut self) {
-        if self.mode == Mode::Tap && self.split_controls {
-            self.mode = Mode::Crosshair;
-            self.split_controls = false;
-            self.crosshair_gestures = true;
-        }
+        // One scheme only: aim with the crosshair, turn by dragging.
+        self.mode = Mode::Crosshair;
+        self.split_controls = false;
         self.virtual_mouse_sensitivity = if self.virtual_mouse_sensitivity.is_finite() {
             self.virtual_mouse_sensitivity.clamp(0.25, 3.0)
         } else {
@@ -326,17 +221,11 @@ impl Settings {
         } else {
             32.0
         };
+        self.controlmap = super::controlmap::clean_name(&self.controlmap)
+            .unwrap_or_else(|| super::controlmap::DEFAULT_NAME.into());
         self.custom_buttons.truncate(super::custom::MAX_BUTTONS);
-        self.custom_buttons
-            .retain(|b| super::CustomButton::valid_token(&b.key));
         for button in &mut self.custom_buttons {
             button.sanitize();
-            for p in &mut button.layouts {
-                p.sanitize();
-            }
-        }
-        for p in self.layouts.iter_mut().flatten() {
-            p.sanitize();
         }
     }
     pub fn save(&self) -> std::io::Result<()> {
@@ -347,42 +236,9 @@ impl Settings {
         std::fs::write(&temp, serde_json::to_vec_pretty(self)?)?;
         std::fs::rename(temp, path)
     }
+    /// Touch is always the aim-crosshair scheme.
     pub fn crosshair(&self) -> bool {
-        self.mode == Mode::Crosshair || self.split_controls
-    }
-    pub fn visible(&self, c: Control) -> bool {
-        match self.button_visibility[c as usize] {
-            1 => return true,
-            2 => return false,
-            _ => {}
-        }
-        match c {
-            Control::Offhand => self.offhand_button,
-            Control::Shield => self.shield_button,
-            Control::Attack | Control::Use => self.crosshair(),
-            Control::Sprint => {
-                self.sprint_button && self.mode != Mode::Dpad && !self.sprint_with_joystick
-            }
-            _ => true,
-        }
-    }
-    pub fn slot(&self, c: Control) -> usize {
-        match c {
-            Control::Jump if self.mode == Mode::Dpad && self.swap_jump_sneak => {
-                Control::Sneak as usize
-            }
-            Control::Sneak if self.mode == Mode::Dpad && self.swap_jump_sneak => {
-                Control::Jump as usize
-            }
-            _ => c as usize,
-        }
-    }
-    pub fn placement(&self, c: Control) -> Placement {
-        let mut p = self.layouts[self.mode.index()][self.slot(c)];
-        if self.left_handed {
-            p.center[0] = 1.0 - p.center[0];
-        }
-        p
+        true
     }
 }
 pub fn contains([x, y, w, h]: [f32; 4], p: [f32; 2]) -> bool {
@@ -391,14 +247,14 @@ pub fn contains([x, y, w, h]: [f32; 4], p: [f32; 2]) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     #[test]
     fn gyro_preferences_roundtrip_and_reject_bad_values() {
-        let mut s = super::Settings::default();
+        let mut s = Settings::default();
         assert!(!s.gyroscope);
         s.gyroscope = true;
         s.gyro_sensitivity = 2.0;
-        let restored: super::Settings =
-            serde_json::from_slice(&serde_json::to_vec(&s).unwrap()).unwrap();
+        let restored: Settings = serde_json::from_slice(&serde_json::to_vec(&s).unwrap()).unwrap();
         assert!(restored.gyroscope);
         assert_eq!(restored.gyro_sensitivity, 2.0);
         s.gyro_sensitivity = f32::NAN;
@@ -406,98 +262,36 @@ mod tests {
         assert_eq!(s.gyro_sensitivity, 1.0);
     }
     #[test]
-    fn blank_buttons_and_game_actions_survive_settings_validation() {
-        let mut settings = super::Settings::default();
-        settings
-            .custom_buttons
-            .push(super::super::CustomButton::new(
-                "key.keyboard.unknown".into(),
-                0,
-            ));
-        settings
-            .custom_buttons
-            .push(super::super::CustomButton::new("action:key.jump".into(), 1));
-        settings.sanitize();
-        assert_eq!(settings.custom_buttons.len(), 2);
-        let encoded = serde_json::to_string(&settings.custom_buttons[1]).unwrap();
-        assert_eq!(
-            serde_json::from_str::<super::super::CustomButton>(&encoded)
-                .unwrap()
-                .key,
-            "action:key.jump"
-        );
-        assert!(!super::super::CustomButton::valid_token(
-            "action:no-such-action"
-        ));
-        assert!(
-            super::super::custom::choices(false)
-                .iter()
-                .any(|(token, _)| token == "action:key.attack")
-        );
-        assert!(
-            super::super::custom::choices(true)
-                .iter()
-                .any(|(token, _)| token == "key.keyboard.z")
-        );
-    }
-
-    use super::*;
-
-    #[test]
-    fn added_buttons_override_scheme_and_removed_buttons_stay_hidden() {
-        let mut settings = Settings {
-            mode: Mode::Tap,
-            ..Settings::default()
-        };
-        assert!(!settings.visible(Control::Attack));
-        settings.button_visibility[Control::Attack as usize] = 1;
-        assert!(settings.visible(Control::Attack));
-        settings.button_visibility[Control::Chat as usize] = 2;
-        assert!(!settings.visible(Control::Chat));
-        let restored: Settings =
-            serde_json::from_slice(&serde_json::to_vec(&settings).unwrap()).unwrap();
-        assert!(restored.visible(Control::Attack));
-        assert!(!restored.visible(Control::Chat));
-    }
-
-    #[test]
-    fn old_layout_preserves_custom_buttons_when_shortcuts_are_added() {
-        let mut json = serde_json::to_value(Settings::default()).unwrap();
-        json["circle_size"] = 48.into();
-        for row in json["layouts"].as_array_mut().unwrap() {
-            row.as_array_mut().unwrap().truncate(10);
-            row[6]["center"] = serde_json::json!([0.25, 0.2]);
-            row[6]["opacity"] = serde_json::json!(0.35);
-        }
-        let settings: Settings = serde_json::from_value(json).unwrap();
-        assert_eq!(settings.circle_size, 48.0);
-        for row in settings.layouts {
-            assert_eq!(row[6].center, [0.25, 0.2]);
-            assert_eq!(row[6].opacity, 0.35);
-            assert_eq!(row[Control::Debug as usize].center, [0.42, 0.055]);
-            assert_eq!(row[Control::Perspective as usize].center, [0.58, 0.055]);
-        }
-        let roundtrip: Settings =
-            serde_json::from_slice(&serde_json::to_vec(&settings).unwrap()).unwrap();
-        assert_eq!(roundtrip.layouts[0][6].center, [0.25, 0.2]);
+    fn defaults_ship_the_default_control_map_with_gestures_on() {
+        let s = Settings::default();
+        assert!(!s.custom_buttons.is_empty());
+        assert!(s.crosshair_gestures);
+        assert_eq!(s.controlmap, super::super::controlmap::DEFAULT_NAME);
     }
     #[test]
-    fn swap_factory_migration_keeps_custom_positions() {
-        let file =
-            std::env::temp_dir().join(format!("horizon-swap-layout-{}.json", std::process::id()));
-        let mut settings = Settings::default();
-        settings.layouts[0][Control::Offhand as usize].center = [0.68, 0.80];
-        settings.layouts[1][Control::Offhand as usize].center = [0.55, 0.43];
-        settings.save_to(&file).unwrap();
-        let read = Settings::load_from(&file);
+    fn files_from_the_old_editor_get_the_default_map_but_keep_preferences() {
+        let dir = std::env::temp_dir().join(format!("horizon-touch-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("horizon-touch.json");
+        std::fs::write(
+            &path,
+            br#"{"sensitivity":2.0,"custom_buttons":[{"key":"key.keyboard.z","layouts":[]}]}"#,
+        )
+        .unwrap();
+        let s = Settings::load_from(&path);
+        assert_eq!(s.sensitivity, 2.0);
         assert_eq!(
-            read.layouts[0][Control::Offhand as usize].center,
-            [0.66, 0.38]
+            s.custom_buttons.len(),
+            super::super::controlmap::default_buttons().len()
         );
-        assert_eq!(
-            read.layouts[1][Control::Offhand as usize].center,
-            [0.55, 0.43]
-        );
-        std::fs::remove_file(file).unwrap();
+        let _ = std::fs::remove_dir_all(dir);
+    }
+    #[test]
+    fn mode_is_always_the_crosshair_scheme() {
+        let mut s = Settings::default();
+        s.mode = Mode::Dpad;
+        s.sanitize();
+        assert_eq!(s.mode, Mode::Crosshair);
+        assert!(s.crosshair());
     }
 }

@@ -173,10 +173,10 @@ pub extern "system" fn document_result(
         .spawn(move || {
             let result = (|| -> Result<()> {
                 let mut env = vm.attach_current_thread()?;
-                let fallback = if pending.kind == Kind::Mods {
-                    "import.hmod"
-                } else {
-                    "import.zip"
+                let fallback = match pending.kind {
+                    Kind::Mods => "import.hmod",
+                    Kind::Controls => "import.json",
+                    _ => "import.zip",
                 };
                 let opened =
                     crate::document_bridge::open(&mut env, activity.as_obj(), &uri, fallback);
@@ -270,9 +270,14 @@ fn stage(request: Request, mut input: std::fs::File, name: String) -> Result<()>
             std::fs::rename(&staged, &target)?;
             imported(
                 format!(
-                    "Imported {} into {}. Enable it in game settings.",
+                    "Imported {} into {}. {}",
                     target.file_name().unwrap_or_default().to_string_lossy(),
-                    request.kind.label()
+                    request.kind.label(),
+                    if request.kind == Kind::Controls {
+                        "Open Maps in the controls editor to load it."
+                    } else {
+                        "Enable it in game settings."
+                    }
                 ),
                 request.kind,
             );

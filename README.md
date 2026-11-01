@@ -3,14 +3,14 @@
 A native Android port of [Horizon](https://github.com/ludovic111/horizon), the
 Rust engine for Minecraft Java 26.3. Unofficial and in active development.
 
-**Android 9+ · Vulkan · Four touch schemes · Sandboxed `.hmod` mods**
+**Android 9+ · Vulkan · PojavLauncher-style custom touch controls · Sandboxed `.hmod` mods**
 
 [Download APK](https://github.com/Vasysik/horizon-android/releases) · [Build & play](docs/android.md) · [Contribute](CONTRIBUTING_ANDROID.md) ·
 [Report an Android bug](https://github.com/Vasysik/horizon-android/issues/new?template=android-bug.yml)
 
 ## What works
 
-- Four touch schemes: joystick or D-pad, each with tap or crosshair aiming.
+- Fully custom touch controls like PojavLauncher: multi-key, toggle, swipeable and pass-through buttons, colours, saved control maps and Pojav layout import.
 - Editable button positions, sizes and opacity; handedness, circle size, optional
   360-degree movement, Auto Sprint and Sprint-button visibility.
 - Java multiplayer, including the Hypixel Arcade lobby shown below.

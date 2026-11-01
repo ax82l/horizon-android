@@ -1,0 +1,2343 @@
+{
+ "version": 1,
+ "buttons": [
+  {
+   "name": "PRI",
+   "keys": [
+    "action:key.attack"
+   ],
+   "center": [
+    0.6866,
+    0.3074
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "SEC",
+   "keys": [
+    "action:key.use"
+   ],
+   "center": [
+    0.7788,
+    0.3074
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "W",
+   "keys": [
+    "key.keyboard.w"
+   ],
+   "center": [
+    0.1532,
+    0.677
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.23,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "A",
+   "keys": [
+    "key.keyboard.a"
+   ],
+   "center": [
+    0.0977,
+    0.8004
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "S",
+   "keys": [
+    "key.keyboard.s"
+   ],
+   "center": [
+    0.1532,
+    0.9238
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "D",
+   "keys": [
+    "key.keyboard.d"
+   ],
+   "center": [
+    0.2087,
+    0.8004
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "E",
+   "keys": [
+    "key.keyboard.e"
+   ],
+   "center": [
+    0.6845,
+    0.9455
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "◇",
+   "keys": [
+    "key.keyboard.left.shift"
+   ],
+   "center": [
+    0.8426,
+    0.7732
+   ],
+   "width": 61.3027,
+   "height": 61.3027,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "Space",
+   "keys": [
+    "key.keyboard.space"
+   ],
+   "center": [
+    0.3339,
+    0.3037
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "L.Ctrl",
+   "keys": [
+    "key.keyboard.left.control"
+   ],
+   "center": [
+    0.2417,
+    0.3037
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "⊞",
+   "keys": [
+    "special:hide_buttons"
+   ],
+   "center": [
+    0.2562,
+    0.0404
+   ],
+   "width": 30.6513,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "MID",
+   "keys": [
+    "action:key.pickItem"
+   ],
+   "center": [
+    0.6866,
+    0.5121
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "esc",
+   "keys": [
+    "key.keyboard.escape"
+   ],
+   "center": [
+    0.7788,
+    0.5121
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "input",
+   "keys": [
+    "special:keyboard"
+   ],
+   "center": [
+    0.2417,
+    0.5085
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "WD",
+   "keys": [
+    "key.keyboard.w",
+    "key.keyboard.d"
+   ],
+   "center": [
+    0.2087,
+    0.677
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "SD",
+   "keys": [
+    "key.keyboard.s",
+    "key.keyboard.d"
+   ],
+   "center": [
+    0.2087,
+    0.9238
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "WA",
+   "keys": [
+    "key.keyboard.w",
+    "key.keyboard.a"
+   ],
+   "center": [
+    0.0977,
+    0.677
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.24,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "SA",
+   "keys": [
+    "key.keyboard.s",
+    "key.keyboard.a"
+   ],
+   "center": [
+    0.0977,
+    0.9238
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "↓",
+   "keys": [
+    "key.keyboard.down"
+   ],
+   "center": [
+    0.3585,
+    0.5085
+   ],
+   "width": 42.1456,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "↑",
+   "keys": [
+    "key.keyboard.up"
+   ],
+   "center": [
+    0.3585,
+    0.3037
+   ],
+   "width": 42.1456,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "q",
+   "keys": [
+    "key.keyboard.q"
+   ],
+   "center": [
+    0.3653,
+    0.9388
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "mid",
+   "keys": [
+    "action:key.pickItem"
+   ],
+   "center": [
+    0.7401,
+    0.9455
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "tab",
+   "keys": [
+    "key.keyboard.tab"
+   ],
+   "center": [
+    0.1211,
+    0.4955
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "l.shift",
+   "keys": [
+    "key.keyboard.left.shift"
+   ],
+   "center": [
+    0.1211,
+    0.7002
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "q",
+   "keys": [
+    "key.keyboard.q"
+   ],
+   "center": [
+    0.7218,
+    0.9048
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "enter",
+   "keys": [
+    "key.keyboard.enter"
+   ],
+   "center": [
+    0.8562,
+    0.7912
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "f",
+   "keys": [
+    "key.keyboard.f"
+   ],
+   "center": [
+    0.7956,
+    0.9455
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "0",
+   "keys": [
+    "key.keyboard.0"
+   ],
+   "center": [
+    0.1457,
+    0.3635
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "C",
+   "keys": [
+    "key.keyboard.c"
+   ],
+   "center": [
+    0.0656,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "X",
+   "keys": [
+    "key.keyboard.x"
+   ],
+   "center": [
+    0.0656,
+    0.3635
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F1",
+   "keys": [
+    "key.keyboard.f1"
+   ],
+   "center": [
+    0.0123,
+    0.0397
+   ],
+   "width": 23.0178,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": true,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F2",
+   "keys": [
+    "key.keyboard.f2"
+   ],
+   "center": [
+    0.039,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F3",
+   "keys": [
+    "key.keyboard.f3"
+   ],
+   "center": [
+    0.0656,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": true,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F4",
+   "keys": [
+    "key.keyboard.f4"
+   ],
+   "center": [
+    0.0922,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F5",
+   "keys": [
+    "key.keyboard.f5"
+   ],
+   "center": [
+    0.119,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F6",
+   "keys": [
+    "key.keyboard.f6"
+   ],
+   "center": [
+    0.1456,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "⎇",
+   "keys": [
+    "key.keyboard.left.alt"
+   ],
+   "center": [
+    0.0123,
+    0.1172
+   ],
+   "width": 23.0178,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "⇥",
+   "keys": [
+    "key.keyboard.tab"
+   ],
+   "center": [
+    0.039,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "T",
+   "keys": [
+    "key.keyboard.t"
+   ],
+   "center": [
+    0.0922,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "⎋",
+   "keys": [
+    "key.keyboard.escape"
+   ],
+   "center": [
+    0.2255,
+    0.0788
+   ],
+   "width": 22.9446,
+   "height": 63.021,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "L",
+   "keys": [
+    "key.keyboard.l"
+   ],
+   "center": [
+    0.0656,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "PRI + SEC",
+   "keys": [
+    "action:key.attack",
+    "action:key.use"
+   ],
+   "center": [
+    0.7788,
+    0.1754
+   ],
+   "width": 84.2912,
+   "height": 22.9885,
+   "opacity": 0.1,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "B",
+   "keys": [
+    "key.keyboard.b"
+   ],
+   "center": [
+    0.0389,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "G",
+   "keys": [
+    "key.keyboard.g"
+   ],
+   "center": [
+    0.0123,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "N",
+   "keys": [
+    "key.keyboard.n"
+   ],
+   "center": [
+    0.0123,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "V",
+   "keys": [
+    "key.keyboard.v"
+   ],
+   "center": [
+    0.0123,
+    0.3635
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "Space",
+   "keys": [
+    "key.keyboard.space"
+   ],
+   "center": [
+    0.3431,
+    0.9049
+   ],
+   "width": 84.2912,
+   "height": 84.2912,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F7",
+   "keys": [
+    "key.keyboard.f7"
+   ],
+   "center": [
+    0.1722,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F8",
+   "keys": [
+    "key.keyboard.f8"
+   ],
+   "center": [
+    0.1988,
+    0.0397
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "FA",
+   "keys": [
+    "key.keyboard.f10"
+   ],
+   "center": [
+    0.1456,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "FB",
+   "keys": [
+    "key.keyboard.f11"
+   ],
+   "center": [
+    0.1722,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "FC",
+   "keys": [
+    "key.keyboard.f12"
+   ],
+   "center": [
+    0.1988,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F9",
+   "keys": [
+    "key.keyboard.f9"
+   ],
+   "center": [
+    0.119,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "H",
+   "keys": [
+    "key.keyboard.h"
+   ],
+   "center": [
+    0.0389,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "2",
+   "keys": [
+    "key.keyboard.2"
+   ],
+   "center": [
+    0.3442,
+    0.1173
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "1",
+   "keys": [
+    "key.keyboard.1"
+   ],
+   "center": [
+    0.6949,
+    0.121
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "4",
+   "keys": [
+    "key.keyboard.4"
+   ],
+   "center": [
+    0.4199,
+    0.1918
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "3",
+   "keys": [
+    "key.keyboard.3"
+   ],
+   "center": [
+    0.6193,
+    0.121
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "9",
+   "keys": [
+    "key.keyboard.9"
+   ],
+   "center": [
+    0.3256,
+    0.4901
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "5",
+   "keys": [
+    "key.keyboard.5"
+   ],
+   "center": [
+    0.6028,
+    0.289
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "L",
+   "keys": [
+    "key.keyboard.l"
+   ],
+   "center": [
+    0.039,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "T",
+   "keys": [
+    "key.keyboard.t"
+   ],
+   "center": [
+    0.0656,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "FA",
+   "keys": [
+    "key.keyboard.f10"
+   ],
+   "center": [
+    0.1188,
+    0.1172
+   ],
+   "width": 22.9446,
+   "height": 30.6513,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "6",
+   "keys": [
+    "key.keyboard.6"
+   ],
+   "center": [
+    0.9494,
+    0.0817
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "7",
+   "keys": [
+    "key.keyboard.7"
+   ],
+   "center": [
+    0.9494,
+    0.2497
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "8",
+   "keys": [
+    "key.keyboard.8"
+   ],
+   "center": [
+    0.9494,
+    0.4178
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "9",
+   "keys": [
+    "key.keyboard.9"
+   ],
+   "center": [
+    0.9494,
+    0.5859
+   ],
+   "width": 68.8337,
+   "height": 68.8337,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "A",
+   "keys": [
+    "key.keyboard.a"
+   ],
+   "center": [
+    0.0123,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "D",
+   "keys": [
+    "key.keyboard.d"
+   ],
+   "center": [
+    0.0922,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "E",
+   "keys": [
+    "key.keyboard.e"
+   ],
+   "center": [
+    0.1189,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "F",
+   "keys": [
+    "key.keyboard.f"
+   ],
+   "center": [
+    0.1456,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "I",
+   "keys": [
+    "key.keyboard.i"
+   ],
+   "center": [
+    0.0656,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "J",
+   "keys": [
+    "key.keyboard.j"
+   ],
+   "center": [
+    0.0923,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "K",
+   "keys": [
+    "key.keyboard.k"
+   ],
+   "center": [
+    0.119,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "O",
+   "keys": [
+    "key.keyboard.o"
+   ],
+   "center": [
+    0.0389,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "P",
+   "keys": [
+    "key.keyboard.p"
+   ],
+   "center": [
+    0.0656,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "R",
+   "keys": [
+    "key.keyboard.r"
+   ],
+   "center": [
+    0.0923,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "S",
+   "keys": [
+    "key.keyboard.s"
+   ],
+   "center": [
+    0.119,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "U",
+   "keys": [
+    "key.keyboard.u"
+   ],
+   "center": [
+    0.1457,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "W",
+   "keys": [
+    "key.keyboard.w"
+   ],
+   "center": [
+    0.0389,
+    0.3635
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "Y",
+   "keys": [
+    "key.keyboard.y"
+   ],
+   "center": [
+    0.0923,
+    0.3635
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "Z",
+   "keys": [
+    "key.keyboard.z"
+   ],
+   "center": [
+    0.119,
+    0.3635
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "C",
+   "keys": [
+    "key.keyboard.c"
+   ],
+   "center": [
+    0.0389,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": true,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "G",
+   "keys": [
+    "key.keyboard.g"
+   ],
+   "center": [
+    0.0656,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "H",
+   "keys": [
+    "key.keyboard.h"
+   ],
+   "center": [
+    0.0923,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "I",
+   "keys": [
+    "key.keyboard.i"
+   ],
+   "center": [
+    0.119,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "J",
+   "keys": [
+    "key.keyboard.j"
+   ],
+   "center": [
+    0.1457,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "K",
+   "keys": [
+    "key.keyboard.k"
+   ],
+   "center": [
+    0.0123,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "M",
+   "keys": [
+    "key.keyboard.m"
+   ],
+   "center": [
+    0.1457,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": false,
+   "show_in_menu": true,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "M",
+   "keys": [
+    "key.keyboard.m"
+   ],
+   "center": [
+    0.0389,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "N",
+   "keys": [
+    "key.keyboard.n"
+   ],
+   "center": [
+    0.0656,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "O",
+   "keys": [
+    "key.keyboard.o"
+   ],
+   "center": [
+    0.0923,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "P",
+   "keys": [
+    "key.keyboard.p"
+   ],
+   "center": [
+    0.119,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "R",
+   "keys": [
+    "key.keyboard.r"
+   ],
+   "center": [
+    0.1457,
+    0.2449
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "U",
+   "keys": [
+    "key.keyboard.u"
+   ],
+   "center": [
+    0.0123,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "V",
+   "keys": [
+    "key.keyboard.v"
+   ],
+   "center": [
+    0.0389,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "X",
+   "keys": [
+    "key.keyboard.x"
+   ],
+   "center": [
+    0.0656,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": true,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "Y",
+   "keys": [
+    "key.keyboard.y"
+   ],
+   "center": [
+    0.0923,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "Z",
+   "keys": [
+    "key.keyboard.z"
+   ],
+   "center": [
+    0.119,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "0",
+   "keys": [
+    "key.keyboard.0"
+   ],
+   "center": [
+    0.1457,
+    0.3042
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "B",
+   "keys": [
+    "key.keyboard.b"
+   ],
+   "center": [
+    0.0123,
+    0.1856
+   ],
+   "width": 22.9885,
+   "height": 22.9885,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "7",
+   "keys": [
+    "key.keyboard.7"
+   ],
+   "center": [
+    0.5169,
+    0.8855
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.1,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "8",
+   "keys": [
+    "key.keyboard.8"
+   ],
+   "center": [
+    0.5724,
+    0.8855
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.1,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "6",
+   "keys": [
+    "key.keyboard.6"
+   ],
+   "center": [
+    0.4613,
+    0.8855
+   ],
+   "width": 50.0,
+   "height": 50.0,
+   "opacity": 0.1,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "R\nsh",
+   "keys": [
+    "key.keyboard.right.shift"
+   ],
+   "center": [
+    0.2677,
+    0.9385
+   ],
+   "width": 24.7801,
+   "height": 49.8662,
+   "opacity": 0.25,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  },
+  {
+   "name": "3 + PRI",
+   "keys": [
+    "key.keyboard.3",
+    "action:key.attack"
+   ],
+   "center": [
+    0.6227,
+    0.8987
+   ],
+   "width": 40.3824,
+   "height": 61.1855,
+   "opacity": 0.24,
+   "toggle": false,
+   "swipeable": false,
+   "pass_through": false,
+   "show_in_game": true,
+   "show_in_menu": false,
+   "background": 1291845632,
+   "stroke_color": 4294967295,
+   "stroke_width": 0.0,
+   "corner_radius": 0.0
+  }
+ ]
+}

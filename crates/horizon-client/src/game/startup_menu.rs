@@ -580,6 +580,14 @@ impl Loading {
     #[cfg(target_os = "android")]
     pub(super) fn menu_android_keyboard(&mut self) {
         use horizon_client::osk::Output;
+        if std::mem::take(&mut self.menu.controls.import_requested)
+            && let Err(error) = crate::documents::begin(
+                horizon_client::content_files::Kind::Controls,
+                crate::backend::game_home(),
+            )
+        {
+            log::warn!("Control map import: {error}");
+        }
         if let Some(notice) = crate::documents::poll() {
             if notice.changed {
                 self.menu.options.pack_infos =
@@ -749,6 +757,10 @@ impl Loading {
                 use winit::event::TouchPhase;
                 let size = self.menu_size();
                 self.menu.controls.viewport(size[0], size[1]);
+                self.menu.controls.density = crate::platform::display_density();
+                if self.menu.controls.home.as_os_str().is_empty() {
+                    self.menu.controls.home = crate::backend::game_home();
+                }
                 if t.phase == TouchPhase::Cancelled {
                     self.menu.controls.cancel_editor();
                 } else {

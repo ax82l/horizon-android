@@ -2129,12 +2129,6 @@ impl OptionsUi {
                 #[cfg(target_os = "android")]
                 rows.insert(0, Row::Big(Opt::AndroidInputMode));
                 let controls = vanilla_control_options();
-                #[cfg(target_os = "android")]
-                let controls = {
-                    let mut controls = controls;
-                    controls.push(Opt::TouchAutoSprint);
-                    controls
-                };
                 rows.extend(pairs(&controls));
                 rows.push(Row::Buttons(
                     button(
@@ -2168,28 +2162,20 @@ impl OptionsUi {
                 self.filter_option_rows(rows)
             }
             Page::Touch => {
-                let mut rows = vec![Row::Big(Opt::TouchMode)];
+                // Buttons are fully custom: layout, keys and colours live in the editor.
+                let mut rows: Vec<Row> = Vec::new();
                 rows.extend(pairs(&[
                     Opt::TouchCrosshairGestures,
                     Opt::TouchSensitivity,
                     Opt::TouchSensitivityHorizontal,
                     Opt::TouchSensitivityVertical,
-                    Opt::TouchOffhand,
-                    Opt::TouchShield,
                     Opt::TouchButtonScale,
-                    Opt::TouchCircleSize,
                     Opt::TouchAttackSide,
                     Opt::DebugGuiScale,
-                    Opt::TouchAnalog,
-                    Opt::TouchSprintButton,
-                    Opt::TouchSprintToggle,
                     Opt::TouchInventoryControls,
-                    Opt::TouchInteract,
                     Opt::TouchMouseSensitivity,
                     Opt::AndroidGyroscope,
                     Opt::AndroidGyroSensitivity,
-                    Opt::TouchLeftHand,
-                    Opt::TouchSwapJumpSneak,
                 ]));
                 #[cfg(target_os = "android")]
                 rows.push(Row::Buttons(
@@ -2197,7 +2183,7 @@ impl OptionsUi {
                         0.0,
                         0.0,
                         310.0,
-                        Text::literal("Customize layout..."),
+                        Text::literal("Edit touch controls..."),
                         Act::TouchControls,
                     ),
                     None,
@@ -5584,27 +5570,13 @@ mod tests {
         assert!(pushes(&mut ui).contains(&Page::Controller));
     }
     #[test]
-    fn touch_options_cycle_four_schemes_and_adjust_circle_and_sensitivity() {
+    fn touch_options_hold_only_gestures_sensitivity_and_button_size() {
         let mut settings = Settings::default();
-        for i in 0..crate::touch::Mode::SCHEMES.len() {
-            let (mode, split, _) = crate::touch::Mode::SCHEMES[i];
-            assert_eq!(settings.touch.mode, mode);
-            assert_eq!(settings.touch.crosshair(), i == 0 || i == 3);
-            if mode == crate::touch::Mode::Dpad {
-                assert_eq!(settings.touch.split_controls, split);
-            }
-            Opt::TouchMode.cycle(&mut settings, false, [1280, 720]);
-        }
-        Opt::TouchAnalog.cycle(&mut settings, false, [1280, 720]);
-        Opt::TouchSprintButton.cycle(&mut settings, false, [1280, 720]);
-        assert!(settings.touch.analog_movement);
-        assert!(!settings.touch.visible(crate::touch::Control::Sprint));
-        Opt::TouchCircleSize.set_slider(&mut settings, 0.75);
-        assert_eq!(settings.touch.circle_size, 52.0);
-        Opt::TouchHorizontalMargin.set_slider(&mut settings, 0.5);
-        Opt::TouchVerticalMargin.set_slider(&mut settings, 1.0);
-        assert_eq!(settings.touch.horizontal_margin, 0.06);
-        assert_eq!(settings.touch.vertical_margin, 0.12);
+        assert!(settings.touch.crosshair_gestures);
+        Opt::TouchCrosshairGestures.cycle(&mut settings, false, [1280, 720]);
+        assert!(!settings.touch.crosshair_gestures);
+        Opt::TouchButtonScale.set_slider(&mut settings, 1.0);
+        assert_eq!(settings.touch.button_scale, 2.0);
         Opt::DebugGuiScale.set_slider(&mut settings, 0.5);
         assert_eq!(settings.file.int("debugGuiScale"), 3);
         Opt::TouchSensitivity.set_slider(&mut settings, 0.0);
@@ -5613,6 +5585,14 @@ mod tests {
         ui.push(Page::Touch);
         let (widgets, _, _, _) = ui.layout(&settings, 427.0, 240.0);
         assert!(widgets.iter().any(|w| matches!(
+            w.kind,
+            WKind::Slider {
+                opt: Opt::TouchSensitivity,
+                ..
+            }
+        )));
+        // The scheme picker and the fixed-button options are gone.
+        assert!(!widgets.iter().any(|w| matches!(
             w.kind,
             WKind::Slider {
                 opt: Opt::TouchCircleSize,
