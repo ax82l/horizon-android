@@ -28,6 +28,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libasound2-dev libudev-dev pkg-config
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
       - name: Android SDK and NDK
         run: |
           yes | sdkmanager --licenses > /dev/null || true
