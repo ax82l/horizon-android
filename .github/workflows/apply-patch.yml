@@ -1,0 +1,24 @@
+name: Apply patch
+# Manual: Actions > Apply patch > Run workflow.
+# Applies custom-controls.patch (uploaded to the repository root) to this branch,
+# commits the result and removes the patch file, so it cannot be applied twice.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Apply, commit and push
+        run: |
+          set -e
+          test -f custom-controls.patch || { echo "Upload custom-controls.patch to the repository root first"; exit 1; }
+          git apply --whitespace=nowarn -p1 custom-controls.patch
+          git rm -q -f custom-controls.patch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Pojav-style custom touch controls, control maps and editor"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
