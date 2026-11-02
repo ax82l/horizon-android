@@ -120,6 +120,8 @@ pub struct Settings {
     pub crosshair_gestures: bool,
     pub gyroscope: bool,
     pub gyro_sensitivity: f32,
+    /// The Android Back button acts as Escape (closes menus, opens Pause).
+    pub back_as_escape: bool,
     pub attack_indicator_left: bool,
     pub horizontal_margin: f32,
     pub vertical_margin: f32,
@@ -152,6 +154,7 @@ impl Default for Settings {
             crosshair_gestures: true,
             gyroscope: false,
             gyro_sensitivity: 1.0,
+            back_as_escape: true,
             attack_indicator_left: true,
             horizontal_margin: 0.0,
             vertical_margin: 0.0,

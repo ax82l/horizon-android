@@ -167,6 +167,8 @@ pub struct Editor {
     message: Option<String>,
     choices: Vec<(String, String)>,
     maps: Vec<String>,
+    /// The gear opened Done / Cancel / Add / Maps / Options.
+    menu_open: bool,
 }
 impl Editor {
     fn new(original: Settings) -> Self {
@@ -179,15 +181,25 @@ impl Editor {
             message: None,
             choices: choices(),
             maps: Vec::new(),
+            menu_open: false,
         }
     }
 }
 
 // ---- geometry (fractions of the screen) ----
 const KEYS_PER_PAGE: usize = 18;
+/// The gear that opens the menu bar; always in the same place.
+const GEAR: [f32; 4] = [0.012, 0.02, 0.05, 0.09];
 fn bar_rect(i: usize) -> [f32; 4] {
-    [0.02 + i as f32 * 0.125, 0.025, 0.115, 0.075]
+    [0.075 + i as f32 * 0.125, 0.025, 0.115, 0.075]
 }
+const OPT_GESTURES: [f32; 4] = [0.1, 0.22, 0.8, 0.09];
+const OPT_BACK: [f32; 4] = [0.1, 0.43, 0.8, 0.09];
+const OPT_SIZE: [f32; 4] = [0.1, 0.62, 0.8, 0.09];
+/// A dragged button settles this close (dp) to a neighbour's edge or line.
+const SNAP_DP: f32 = 12.0;
+/// The narrow gap left between snapped buttons.
+const GAP_DP: f32 = 2.0;
 const BAR: [&str; 5] = ["Done", "Cancel", "Add", "Maps", "Options"];
 fn panel_rect(x: f32) -> [f32; 4] {
     [x, 0.115, 0.46, 0.875]
@@ -404,12 +416,17 @@ impl TouchControls {
             match drag {
                 Drag::Button(offset) => {
                     if let Some(i) = e.selected
-                        && let Some(button) = self.settings.custom_buttons.get_mut(i)
+                        && i < self.settings.custom_buttons.len()
                     {
-                        button.center = [
+                        // Snapping is worked out from the finger every time, so
+                        // pulling further away lets the button go.
+                        let raw = [
                             (p[0] - offset[0]).clamp(0.0, 1.0),
                             (p[1] - offset[1]).clamp(0.0, 1.0),
                         ];
+                        let at = self.snap_center(i, raw);
+                        self.settings.custom_buttons[i].center =
+                            [at[0].clamp(0.0, 1.0), at[1].clamp(0.0, 1.0)];
                     }
                 }
                 Drag::Slider(kind, rect) => {
@@ -431,7 +448,13 @@ impl TouchControls {
             return false;
         }
         e.message = None;
-        for (i, label) in BAR.iter().enumerate() {
+        if layout::contains(GEAR, p) {
+            e.menu_open = !e.menu_open;
+            return false;
+        }
+        // A tap elsewhere closes the bar and then acts as usual.
+        let menu_was_open = std::mem::take(&mut e.menu_open);
+        for (i, label) in BAR.iter().enumerate().filter(|_| menu_was_open) {
             if !layout::contains(bar_rect(i), p) {
                 continue;
             }
@@ -488,6 +511,46 @@ impl TouchControls {
             None => e.selected = None,
         }
         false
+    }
+    /// Where a dragged button settles: against a neighbour with a narrow gap, or
+    /// lined up with it, when it is close enough. Everything is in screen fractions.
+    fn snap_center(&self, index: usize, raw: [f32; 2]) -> [f32; 2] {
+        let [sw, sh] = self.surface_px();
+        let density = if self.density > 0.0 { self.density } else { 2.75 };
+        let (tx, ty) = (SNAP_DP * density / sw, SNAP_DP * density / sh);
+        let (gx, gy) = (GAP_DP * density / sw, GAP_DP * density / sh);
+        let [w, h] = self.custom_size(index);
+        let (mut best_x, mut best_y) = (None, None);
+        for j in (0..self.settings.custom_buttons.len()).filter(|&j| j != index) {
+            let [jx, jy, jw, jh] = self.custom_rect(j);
+            let (jcx, jcy) = (jx + jw / 2.0, jy + jh / 2.0);
+            let rows_overlap = raw[1] - h / 2.0 < jy + jh + ty && raw[1] + h / 2.0 > jy - ty;
+            let cols_overlap = raw[0] - w / 2.0 < jx + jw + tx && raw[0] + w / 2.0 > jx - tx;
+            let near_x = (raw[0] - jcx).abs() <= (w + jw) / 2.0 + gx + tx;
+            let near_y = (raw[1] - jcy).abs() <= (h + jh) / 2.0 + gy + ty;
+            if rows_overlap {
+                offer(&mut best_x, jx - gx - w / 2.0, raw[0], tx);
+                offer(&mut best_x, jx + jw + gx + w / 2.0, raw[0], tx);
+                if near_x {
+                    offer(&mut best_y, jy + h / 2.0, raw[1], ty);
+                    offer(&mut best_y, jcy, raw[1], ty);
+                    offer(&mut best_y, jy + jh - h / 2.0, raw[1], ty);
+                }
+            }
+            if cols_overlap {
+                offer(&mut best_y, jy - gy - h / 2.0, raw[1], ty);
+                offer(&mut best_y, jy + jh + gy + h / 2.0, raw[1], ty);
+                if near_y {
+                    offer(&mut best_x, jx + w / 2.0, raw[0], tx);
+                    offer(&mut best_x, jcx, raw[0], tx);
+                    offer(&mut best_x, jx + jw - w / 2.0, raw[0], tx);
+                }
+            }
+        }
+        [
+            best_x.map_or(raw[0], |(_, v)| v),
+            best_y.map_or(raw[1], |(_, v)| v),
+        ]
     }
     fn apply_slider(&mut self, e: &Editor, kind: Slider, v: f32) {
         match kind {
@@ -692,10 +755,13 @@ impl TouchControls {
                 if layout::contains(modal_button(1, 3), p) {
                     return Overlay::None;
                 }
-                if layout::contains([0.1, 0.25, 0.8, 0.09], p) {
+                if layout::contains(OPT_GESTURES, p) {
                     self.settings.crosshair_gestures ^= true;
                 }
-                let slider = [0.1, 0.5, 0.8, 0.09];
+                if layout::contains(OPT_BACK, p) {
+                    self.settings.back_as_escape ^= true;
+                }
+                let slider = OPT_SIZE;
                 if layout::contains(slider, p) {
                     e.drag = Some((id, Drag::Slider(Slider::ButtonScale, slider)));
                     self.apply_slider(e, Slider::ButtonScale, ((p[0] - slider[0]) / slider[2]).clamp(0.0, 1.0));
@@ -849,8 +915,11 @@ impl TouchControls {
             return;
         };
         let (w, h) = (b.width, b.height);
-        for (i, label) in BAR.iter().enumerate() {
-            plate(b, a, bar_rect(i), label, false);
+        draw_gear(b, a, GEAR, e.menu_open);
+        if e.menu_open {
+            for (i, label) in BAR.iter().enumerate() {
+                plate(b, a, bar_rect(i), label, false);
+            }
         }
         if let Some(message) = &e.message {
             b.text(a, message, 0.02 * w, 0.11 * h, rgba(255, 220, 120, 255), true);
@@ -1003,30 +1072,45 @@ impl TouchControls {
     }
     fn draw_options(&self, b: &mut HudBatch, a: &HudAtlas) {
         self.draw_modal(b, a, "Options");
-        let off = self.settings.crosshair_gestures;
+        let gestures = self.settings.crosshair_gestures;
         plate(
             b,
             a,
-            [0.1, 0.25, 0.8, 0.09],
-            &format!("Disable gestures: {}", if off { "OFF" } else { "ON" }),
-            !off,
+            OPT_GESTURES,
+            &format!("Disable gestures: {}", if gestures { "OFF" } else { "ON" }),
+            !gestures,
         );
         b.text(
             a,
             "Gestures: tap to place, hold to mine, tap the hotbar. Turning the view always works.",
             0.1 * b.width,
-            0.36 * b.height,
+            0.33 * b.height,
             rgba(200, 200, 200, 255),
             true,
+        );
+        let back = self.settings.back_as_escape;
+        plate(
+            b,
+            a,
+            OPT_BACK,
+            &format!("Android Back = Esc: {}", if back { "ON" } else { "OFF" }),
+            back,
         );
         slider(
             b,
             a,
-            [0.1, 0.5, 0.8, 0.09],
+            OPT_SIZE,
             &format!("Button size: {}%", (self.settings.button_scale * 100.0).round()),
             (self.settings.button_scale - 0.5) / 1.5,
         );
         plate(b, a, modal_button(1, 3), "Close", false);
+    }
+}
+/// Keeps the closest snap position within `limit` of where the finger is.
+fn offer(slot: &mut Option<(f32, f32)>, value: f32, from: f32, limit: f32) {
+    let distance = (value - from).abs();
+    if distance <= limit && slot.is_none_or(|(best, _)| distance < best) {
+        *slot = Some((distance, value));
     }
 }
 fn after_text(target: &Target) -> Overlay {
@@ -1046,6 +1130,45 @@ fn draw_text(b: &mut HudBatch, a: &HudAtlas, input: &TextInput) {
     for (rect, r, c) in pad_rects(&rows, input.mode) {
         let key = &rows[r][c];
         plate(b, a, rect, &key.label, key.act == Act::Shift && input.shift);
+    }
+}
+/// A small gear on a button plate.
+fn draw_gear(b: &mut HudBatch, a: &HudAtlas, rect: [f32; 4], on: bool) {
+    use std::f32::consts::{FRAC_PI_4, TAU};
+    plate(b, a, rect, "", on);
+    let Some(white) = a.sprites.get("horizon/white") else {
+        return;
+    };
+    let uv = [[(white.u0 + white.u1) / 2.0, (white.v0 + white.v1) / 2.0]; 4];
+    let (bw, bh) = (b.width, b.height);
+    let (cx, cy) = ((rect[0] + rect[2] / 2.0) * bw, (rect[1] + rect[3] / 2.0) * bh);
+    let r = (rect[2] * bw).min(rect[3] * bh) * 0.27;
+    let dark = rgba(35, 35, 35, 255);
+    for k in 0..8 {
+        let angle = k as f32 * FRAC_PI_4;
+        let (c, s) = (angle.cos(), angle.sin());
+        let at = |along: f32, across: f32| [cx + c * along - s * across, cy + s * along + c * across];
+        let (inner, outer, half) = (r * 0.8, r * 1.45, r * 0.28);
+        b.quad(
+            [at(inner, -half), at(outer, -half), at(outer, half), at(inner, half)],
+            uv,
+            dark,
+        );
+    }
+    for (radius, color) in [(r, dark), (r * 0.42, rgba(235, 235, 235, 255))] {
+        for k in 0..16 {
+            let (a0, a1) = (k as f32 * TAU / 16.0, (k + 1) as f32 * TAU / 16.0);
+            b.quad(
+                [
+                    [cx, cy],
+                    [cx + radius * a0.cos(), cy + radius * a0.sin()],
+                    [cx + radius * a1.cos(), cy + radius * a1.sin()],
+                    [cx, cy],
+                ],
+                uv,
+                color,
+            );
+        }
     }
 }
 fn slider(b: &mut HudBatch, a: &HudAtlas, [x, y, w, h]: [f32; 4], label: &str, value: f32) {
@@ -1112,6 +1235,11 @@ mod tests {
     fn centre(r: [f32; 4]) -> [f32; 2] {
         [r[0] + r[2] / 2.0, r[1] + r[3] / 2.0]
     }
+    /// Opens the gear's menu and taps one of its entries.
+    fn bar(t: &mut TouchControls, i: usize) -> bool {
+        tap(t, centre(GEAR));
+        tap(t, centre(bar_rect(i)))
+    }
     fn select_first(t: &mut TouchControls) {
         let c = t.settings.custom_buttons[0].center;
         tap(t, c);
@@ -1131,7 +1259,7 @@ mod tests {
     #[test]
     fn add_clone_and_delete_manage_the_list() {
         let mut t = editing();
-        tap(&mut t, centre(bar_rect(2)));
+        bar(&mut t, 2);
         assert_eq!(t.settings.custom_buttons.len(), 2);
         assert_eq!(t.editor.as_ref().unwrap().selected, Some(1));
         let x = t.panel_x(t.editor.as_ref().unwrap());
@@ -1217,9 +1345,59 @@ mod tests {
         t.edit_touch(1, c, true, false);
         t.edit_touch(1, [0.9, 0.9], false, false);
         t.edit_touch(1, [0.9, 0.9], false, true);
-        assert!(tap(&mut t, centre(bar_rect(1))));
+        assert!(bar(&mut t, 1));
         assert!(t.editor.is_none());
         assert_eq!(t.settings.custom_buttons[0].center, c);
+    }
+    #[test]
+    fn the_gear_opens_the_bar_and_a_tap_elsewhere_closes_it() {
+        let mut t = editing();
+        // The bar is closed until the gear opens it, so its place is plain world.
+        tap(&mut t, centre(bar_rect(2)));
+        assert_eq!(t.settings.custom_buttons.len(), 1);
+        tap(&mut t, centre(GEAR));
+        assert!(t.editor.as_ref().unwrap().menu_open);
+        tap(&mut t, [0.9, 0.9]);
+        assert!(!t.editor.as_ref().unwrap().menu_open);
+        tap(&mut t, centre(GEAR));
+        tap(&mut t, centre(GEAR));
+        assert!(!t.editor.as_ref().unwrap().menu_open);
+    }
+    #[test]
+    fn dragging_next_to_a_button_snaps_with_a_gap_and_lets_go_when_pulled_away() {
+        let mut t = editing();
+        let mut other = CustomButton::new("key.keyboard.x", 0);
+        other.center = [0.7, 0.3];
+        t.settings.custom_buttons.push(other);
+        let [w, _] = t.custom_size(0);
+        let gap = GAP_DP * 2.0 / 1920.0;
+        let fixed = t.settings.custom_buttons[0].center;
+        t.edit_touch(1, [0.7, 0.3], true, false);
+        assert_eq!(t.editor.as_ref().unwrap().selected, Some(1));
+        t.edit_touch(1, [fixed[0] + w + gap + 0.004, fixed[1] + 0.003], false, false);
+        let at = t.settings.custom_buttons[1].center;
+        assert!((at[0] - (fixed[0] + w + gap)).abs() < 1e-5, "{at:?}");
+        assert!((at[1] - fixed[1]).abs() < 1e-5);
+        t.edit_touch(1, [fixed[0] + w + gap + 0.05, fixed[1] + 0.003], false, false);
+        let free = t.settings.custom_buttons[1].center;
+        assert!((free[0] - (fixed[0] + w + gap + 0.05)).abs() < 1e-5, "{free:?}");
+        assert!((free[1] - (fixed[1] + 0.003)).abs() < 1e-5);
+        t.edit_touch(1, [0.9, 0.9], false, true);
+    }
+    #[test]
+    fn buttons_stack_with_a_gap_and_line_up_their_edges() {
+        let mut t = editing();
+        let mut other = CustomButton::new("key.keyboard.x", 0);
+        other.center = [0.7, 0.7];
+        t.settings.custom_buttons.push(other);
+        let [_, h] = t.custom_size(0);
+        let fixed = t.settings.custom_buttons[0].center;
+        let gap = GAP_DP * 2.0 / 1080.0;
+        t.edit_touch(1, [0.7, 0.7], true, false);
+        t.edit_touch(1, [fixed[0] + 0.004, fixed[1] + h + gap - 0.003], false, false);
+        let at = t.settings.custom_buttons[1].center;
+        assert!((at[0] - fixed[0]).abs() < 1e-5);
+        assert!((at[1] - (fixed[1] + h + gap)).abs() < 1e-5);
     }
     #[test]
     fn the_panel_opens_on_the_side_away_from_the_button() {

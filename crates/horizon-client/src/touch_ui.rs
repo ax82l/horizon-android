@@ -285,48 +285,12 @@ impl TouchUi {
             Gesture::None
         }
     }
-    pub fn action(&self, w: f32, h: f32, p: [f32; 2], menu: bool) -> Option<Action> {
-        if menu && self.virtual_mouse {
-            for ([x, y, width, height], right) in mouse_button_rects(w, h) {
-                if (x..x + width).contains(&p[0]) && (y..y + height).contains(&p[1]) {
-                    return Some(Action::MouseButton(right));
-                }
-            }
-        }
-        if menu && (3.0..23.0).contains(&p[1]) && (w - 108.0..w - 56.0).contains(&p[0]) {
-            return Some(Action::VirtualMouse);
-        }
-        if menu && (3.0..23.0).contains(&p[1]) && (w - 53.0..w - 3.0).contains(&p[0]) {
-            return Some(Action::Key(KeyCode::Escape));
-        }
+    /// There are no built-in buttons any more: Mouse, Back, the mouse buttons and
+    /// the F-key row are custom buttons now. Kept so callers need no change.
+    pub fn action(&self, _w: f32, _h: f32, _p: [f32; 2], _menu: bool) -> Option<Action> {
         None
     }
-    pub fn draw(&self, b: &mut HudBatch, a: &HudAtlas, menu: bool) {
-        // The F-key row, its "..." drawer and chat shortcut are gone: touch
-        // buttons are custom now. Menus keep the virtual mouse and Back.
-        if menu {
-            button(
-                b,
-                a,
-                if self.virtual_mouse {
-                    "Mouse ON"
-                } else {
-                    "Mouse"
-                },
-                b.width - 108.0,
-                3.0,
-                50.0,
-            );
-        }
-        if menu && self.virtual_mouse {
-            for ([x, y, width, _], right) in mouse_button_rects(b.width, b.height) {
-                button(b, a, if right { "RMB" } else { "LMB" }, x, y, width);
-            }
-        }
-        if menu {
-            button(b, a, "Back", b.width - 53.0, 3.0, 50.0);
-        }
-    }
+    pub fn draw(&self, _b: &mut HudBatch, _a: &HudAtlas, _menu: bool) {}
     pub fn keyboard_touch(
         &mut self,
         b: &mut HudBatch,
@@ -391,48 +355,12 @@ mod tests {
         assert_eq!(ui.relative_click(true), None);
     }
     #[test]
-    fn mouse_toggle_is_available_without_a_setting_and_clicks_stay_on_right() {
-        let mut ui = TouchUi::default();
-        assert!(matches!(
-            ui.action(427.0, 267.0, [350.0, 10.0], true),
-            Some(Action::VirtualMouse)
-        ));
-        assert!(ui.action(427.0, 267.0, [350.0, 10.0], false).is_none());
-        ui.virtual_mouse = true;
-        assert!(matches!(
-            ui.action(427.0, 267.0, [399.0, 226.0], true),
-            Some(Action::MouseButton(false))
-        ));
-        assert!(matches!(
-            ui.action(427.0, 267.0, [399.0, 250.0], true),
-            Some(Action::MouseButton(true))
-        ));
-        assert!(ui.action(427.0, 267.0, [213.0, 250.0], true).is_none());
-    }
-    #[test]
-    fn menu_mouse_buttons_share_ownership_and_release_outside_their_bounds() {
-        let mut ui = TouchUi {
-            virtual_mouse: true,
-            ..Default::default()
-        };
-        assert!(matches!(
-            ui.action(427.0, 267.0, [399.0, 226.0], true),
-            Some(Action::MouseButton(false))
-        ));
-        assert!(matches!(
-            ui.action(427.0, 267.0, [399.0, 250.0], true),
-            Some(Action::MouseButton(true))
-        ));
-        assert!(ui.action(427.0, 267.0, [399.0, 226.0], false).is_none());
-        assert!(ui.press_mouse(1, false));
-        assert!(!ui.press_mouse(2, false));
-        assert!(ui.press_mouse(3, true));
-        assert_eq!(ui.release_mouse(1), Some((false, false)));
-        assert_eq!(ui.release_mouse(2), Some((false, true)));
-        assert_eq!(ui.release_all_mouse(), vec![true]);
-        assert_eq!(ui.release_mouse(3), None);
-        ui.virtual_mouse = false;
-        assert!(ui.action(427.0, 267.0, [399.0, 226.0], true).is_none());
+    fn menus_have_no_built_in_buttons() {
+        let ui = TouchUi::default();
+        for p in [[350.0, 10.0], [399.0, 226.0], [399.0, 250.0], [400.0, 10.0]] {
+            assert!(ui.action(427.0, 267.0, p, true).is_none());
+            assert!(ui.action(427.0, 267.0, p, false).is_none());
+        }
     }
     #[test]
     fn virtual_mouse_moves_relatively_and_dragging_never_clicks() {

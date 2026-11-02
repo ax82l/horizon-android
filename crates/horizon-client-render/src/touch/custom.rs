@@ -38,7 +38,7 @@ pub struct CustomButton {
     /// The finger on the button also turns the view.
     pub pass_through: bool,
     pub show_in_game: bool,
-    /// Shown over the inventory screens (when inventory controls are on).
+    /// Shown over every screen that is not the game itself (menus, chat, inventory).
     pub show_in_menu: bool,
     /// ARGB fill.
     pub background: u32,
@@ -252,7 +252,7 @@ impl TouchControls {
         if self.buttons_hidden && !button.has_key(HIDE_BUTTONS) {
             return false;
         }
-        if self.inventory_mode {
+        if self.menu_mode {
             button.show_in_menu
         } else {
             button.show_in_game
@@ -391,7 +391,7 @@ impl TouchControls {
         }
         None
     }
-    /// Inventory overlays keep button holds; there is nothing else to press.
+    /// Buttons over menus and inventories: true when the touch is a button's.
     pub fn inventory_update(
         &mut self,
         id: u64,
@@ -716,9 +716,9 @@ mod tests {
         let mut t = one_button(button);
         let p = centre(&t, 0);
         assert!(t.custom_at(p).is_some());
-        t.inventory_mode = true;
+        t.menu_mode = true;
         assert!(t.custom_at(p).is_none());
-        t.inventory_mode = false;
+        t.menu_mode = false;
         t.settings.custom_buttons[0].show_in_game = false;
         assert!(t.custom_at(p).is_none());
     }

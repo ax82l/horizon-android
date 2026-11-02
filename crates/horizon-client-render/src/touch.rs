@@ -129,8 +129,11 @@ pub struct TouchControls {
     pub shield_available: bool,
     /// Physical keypad profiles keep utility controls without a movement overlay.
     pub auxiliary_only: bool,
-    /// Inventory screens show the buttons marked "In menu".
+    /// Inventory screens (kept for callers that still set it).
     pub inventory_mode: bool,
+    /// Any screen that is not the game itself: the buttons marked "In menu" show
+    /// instead of those marked "In game".
+    pub menu_mode: bool,
     pub editor: Option<editor::Editor>,
     fingers: BTreeMap<u64, (Role, [f32; 2])>,
     /// Fingers that began on a custom button.

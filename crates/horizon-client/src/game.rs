@@ -13726,17 +13726,20 @@ impl Game<'_> {
         }
         #[cfg(target_os = "android")]
         if self.pad.touch.editor.is_some()
-            || ((crate::touch_visible() || self.settings.keypad.enabled)
-                && (!self.pad_in_menu() || self.android_inventory_controls()))
+            || (crate::touch_visible() || self.settings.keypad.enabled)
         {
-            self.pad.touch.context_use =
-                self.pad.touch.settings.contextual_interact && self.touch_context_use();
-            self.pad.touch.vertical_movement = self.player.as_ref().is_some_and(|p| p.flying);
-            self.pad.touch.swimming = self.player.as_ref().is_some_and(|p| p.swimming);
-            self.pad.touch.mounted = self.riding.is_some();
-            self.pad.touch.shield_available = self.touch_shield_available();
-            self.pad.touch.sneaking = self.keys.contains(&KeyCode::ShiftLeft);
-            self.pad.touch.break_progress = self.touch_mining_progress();
+            self.pad.touch.menu_mode = self.pad_in_menu();
+            if !self.pad_in_menu() {
+                self.pad.touch.context_use =
+                    self.pad.touch.settings.contextual_interact && self.touch_context_use();
+                self.pad.touch.vertical_movement =
+                    self.player.as_ref().is_some_and(|p| p.flying);
+                self.pad.touch.swimming = self.player.as_ref().is_some_and(|p| p.swimming);
+                self.pad.touch.mounted = self.riding.is_some();
+                self.pad.touch.shield_available = self.touch_shield_available();
+                self.pad.touch.sneaking = self.keys.contains(&KeyCode::ShiftLeft);
+                self.pad.touch.break_progress = self.touch_mining_progress();
+            }
             self.pad.touch.draw(&mut hud, &self.gui.atlas);
         }
         #[cfg(target_os = "android")]
@@ -14877,6 +14880,9 @@ impl ApplicationHandler for Game<'_> {
                 crate::platform::hide();
                 return;
             }
+            if !self.pad.touch.settings.back_as_escape {
+                return;
+            }
             self.pad.touch.clear();
             crate::platform::hide();
             if let Err(e) = self.pad_back() {
@@ -14902,6 +14908,7 @@ impl ApplicationHandler for Game<'_> {
             let size = self.window.as_ref().unwrap().inner_size();
             self.pad.touch.viewport(size.width, size.height);
             self.pad.touch.density = crate::platform::display_density();
+            self.pad.touch.menu_mode = self.pad_in_menu();
             if self.pad.touch.home.as_os_str().is_empty() {
                 self.pad.touch.home = crate::backend::game_home();
             }
@@ -14944,7 +14951,7 @@ impl ApplicationHandler for Game<'_> {
                 touch.location.x as f32 / size.width.max(1) as f32,
                 touch.location.y as f32 / size.height.max(1) as f32,
             ];
-            let inventory_control = self.android_inventory_controls()
+            let inventory_control = self.pad_in_menu()
                 && (self.pad.touch.owns_pointer(touch.id)
                     || (touch.phase == TouchPhase::Started
                         && self.pad.touch.control_at_point(overlay_point)));
@@ -15053,11 +15060,13 @@ impl ApplicationHandler for Game<'_> {
                     }
                 }
             } else {
-                if !self.android_inventory_controls() {
-                    self.pad.touch.clear();
-                }
+                self.pad.touch.clear_world_gesture();
                 if !matches!(self.screen, Screen::Inventory | Screen::Creative) {
                     self.android_menu_touch(touch, event_loop, id);
+                    return;
+                }
+                if !self.pad.touch.settings.crosshair_gestures && !self.pad.touch_ui.virtual_mouse
+                {
                     return;
                 }
                 if self.pad.touch_ui.virtual_mouse {

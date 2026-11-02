@@ -81,21 +81,32 @@ in the editor; turning the view always works):
 | Tap the hotbar | Select the slot |
 
 Open **Options > Controls > Touch Controls > Edit touch controls**. Tap a button
-to edit it and drag it to move it. **Add** makes a button; the panel has three tabs:
+to edit it and drag it to move it; it snaps next to a neighbour with a narrow gap and
+lines up with it, and lets go again when you keep dragging. The gear in the corner
+opens **Done**, **Cancel**, **Add** (a new button), **Maps** and **Options**. The panel
+has three tabs:
 
 - **Basic**: name, width and height in dp (the same unit as PojavLauncher, so a
   225 x 225 button covers the same area), up to four keys per button, Clone and Delete.
 - **Behavior**: toggle (tap on, tap off), swipeable (slide onto another swipeable
   button), mouse pass-through (the finger on the button also turns the view),
-  In game, In menu (inventory screens, needs **Controls in inventory**), opacity.
+  In game, In menu (every screen that is not the game: main menu, create world,
+  pause, chat, inventory), opacity.
 - **Style**: background and stroke colours (hex `RRGGBB` / `AARRGGBB` or R, G, B, A
   values), stroke width 0-100% (100% fills the button) and corner radius 0-100%
   (100% is a circle).
 
 A key slot takes any keyboard key, a mouse button (left / right / middle),
-an action, or one of two special keys: **Hide / show buttons** (hides every other
-button, never itself) and **Mouse on / off** (the virtual mouse in menus). Pressing
-a key on a connected keyboard while the key list is open assigns it.
+an action, or a special key: **Hide / show buttons** (hides every other button,
+never itself), **Mouse on / off** (the virtual mouse in menus) and **Keyboard**
+(the Android keyboard). Pressing a key on a connected keyboard while the key list
+is open assigns it.
+
+Over menus, buttons press keys and the mouse buttons click at the cursor. With
+**Mouse** on, dragging moves the cursor; with it off, touching a menu clicks
+directly. Switching gestures off also switches off direct clicking, scrolling by
+dragging and press-and-hold right clicks in menus. **Options** in the editor also
+holds **Android Back = Esc** (Back closes menus and opens Pause) and the button size.
 
 **Maps** saves, loads and deletes named control maps (stored in `controlmaps/`) and
 **Import...** picks a Horizon or PojavLauncher layout file with the Android file

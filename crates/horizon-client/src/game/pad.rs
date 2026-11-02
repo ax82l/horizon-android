@@ -27,6 +27,9 @@ pub(super) const HELP: &[&str] = &[
 pub(super) struct Pads {
     #[cfg(target_os = "android")]
     pub(super) custom_keys: std::collections::HashSet<KeyCode>,
+    /// Mouse buttons custom buttons pressed over a menu; sent with the event loop.
+    #[cfg(target_os = "android")]
+    pub(super) menu_mouse: Vec<(winit::event::MouseButton, bool)>,
     #[cfg(target_os = "android")]
     pub(super) hardware_keys: std::collections::HashSet<KeyCode>,
     #[cfg(target_os = "android")]
@@ -151,6 +154,7 @@ impl Game<'_> {
                 &crate::backend::game_home(),
             );
             self.pad.touch.inventory_mode = self.android_inventory_controls();
+            self.pad.touch.menu_mode = self.pad_in_menu();
             self.android_virtual_mouse_clicks(event_loop);
             let active = horizon_client::android_runtime::active_input();
             if self.pad.last_input_mode.replace(active).is_some_and(|old| {
@@ -161,17 +165,17 @@ impl Game<'_> {
                 }
                 horizon_client::android_runtime::clear_keypad();
             }
-            if (self.pad_in_menu() && !self.android_inventory_controls())
-                || !self.focused
-                || (!crate::touch_visible() && !self.settings.keypad.enabled)
-            {
+            if self.pad_in_menu() && !self.android_inventory_controls() {
+                horizon_client::android_runtime::clear_keypad();
+            }
+            if !self.focused || (!crate::touch_visible() && !self.settings.keypad.enabled) {
                 self.pad.touch.clear();
                 horizon_client::android_runtime::clear_keypad();
             }
             self.android_custom_events();
         }
         #[cfg(target_os = "android")]
-        if self.pad_in_menu() && self.android_inventory_controls() {
+        if self.pad_in_menu() {
             self.pad.touch.clear_world_gesture();
         }
         let settings = &self.settings.controller;

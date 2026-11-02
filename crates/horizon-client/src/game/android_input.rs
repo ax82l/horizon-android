@@ -182,6 +182,12 @@ impl Game<'_> {
             {
                 continue;
             }
+            if self.pad_in_menu() {
+                if let Err(error) = self.android_menu_key(key, down) {
+                    log::warn!("Custom touch key in a menu: {error}");
+                }
+                continue;
+            }
             if down {
                 self.physical_keys.insert(key);
             } else {
@@ -213,7 +219,45 @@ impl Game<'_> {
         }
     }
 
+    /// A custom button's key over a menu goes where the old key row's did.
+    fn android_menu_key(&mut self, key: KeyCode, down: bool) -> Result<()> {
+        if key == KeyCode::Escape {
+            if down {
+                crate::platform::hide();
+                self.pad_back()?;
+            }
+            return Ok(());
+        }
+        if matches!(
+            key,
+            KeyCode::Tab | KeyCode::ShiftLeft | KeyCode::ControlLeft
+        ) {
+            if down {
+                self.physical_keys.insert(key);
+            } else {
+                self.physical_keys.remove(&key);
+            }
+            return self.mapped_key(key, down, false);
+        }
+        if down {
+            self.physical_keys.insert(key);
+            if !self.debug_key(key, KeyAction::Press) {
+                self.key_pressed(key)?;
+            }
+            if matches!(key, KeyCode::KeyT | KeyCode::Slash) && self.screen == Screen::Chat {
+                self.android_show_keyboard();
+            }
+        } else {
+            self.android_key_up(key);
+        }
+        Ok(())
+    }
     fn android_custom_mouse(&mut self, button: MouseButton, down: bool) -> Result<()> {
+        if self.pad_in_menu() && !matches!(self.screen, Screen::Inventory | Screen::Creative) {
+            // Delivered with the event loop on the next frame.
+            self.pad.menu_mouse.push((button, down));
+            return Ok(());
+        }
         if !matches!(self.screen, Screen::Inventory | Screen::Creative) {
             return self.play_mouse(button, down);
         }
@@ -597,6 +641,10 @@ impl Game<'_> {
             self.android_virtual_touch(t, events, id);
             return;
         }
+        if !self.pad.touch.settings.crosshair_gestures {
+            // Gestures off: touching a menu does nothing; use the mouse key and buttons.
+            return;
+        }
         let Some(b) = self.gui_scale() else {
             return;
         };
@@ -693,6 +741,23 @@ impl Game<'_> {
         );
     }
     pub(super) fn android_virtual_mouse_clicks(&mut self, events: &ActiveEventLoop) {
+        if let Some(id) = self.window.as_ref().map(|w| w.id()) {
+            for (button, down) in std::mem::take(&mut self.pad.menu_mouse) {
+                self.window_event(
+                    events,
+                    id,
+                    WindowEvent::MouseInput {
+                        device_id: DeviceId::dummy(),
+                        state: if down {
+                            ElementState::Pressed
+                        } else {
+                            ElementState::Released
+                        },
+                        button,
+                    },
+                );
+            }
+        }
         if !self.focused || !self.pad_in_menu() || !self.pad.touch_ui.virtual_mouse {
             self.pad.touch_ui.cancel_relative();
             for right in self.pad.touch_ui.release_all_mouse() {
@@ -704,7 +769,11 @@ impl Game<'_> {
             }
             return;
         }
-        let Some(right) = self.pad.touch_ui.relative_click(true) else {
+        let Some(right) = self
+            .pad
+            .touch_ui
+            .relative_click(self.pad.touch.settings.crosshair_gestures)
+        else {
             return;
         };
         let button = if right {
